@@ -3,9 +3,10 @@
 #get ip
 ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 #安裝相關套件
-yum install -y epel-release git net-tools
-rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
-yum install -y composer cronie fping git ImageMagick jwhois mariadb mariadb-server mtr MySQL-python net-snmp net-snmp-utils nginx nmap php72w php72w-cli php72w-common php72w-curl php72w-fpm php72w-gd php72w-mbstring php72w-mysqlnd php72w-process php72w-snmp php72w-xml php72w-zip python-memcached rrdtool python3
+yum install -y epel-release yum-utils git net-tools
+yum -y localinstall http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum-config-manager --enable remi-php73
+yum install -y composer cronie fping git ImageMagick jwhois mariadb mariadb-server mtr MySQL-python net-snmp net-snmp-utils nginx nmap php-fpm php-cli php-common php-curl php-gd php-mbstring php-process php-snmp php-xml php-zip php-memcached php-mysqlnd python-memcached rrdtool python3 python3-pip
 
 #新增使用者
 useradd librenms -d /opt/librenms -M -r
@@ -20,7 +21,7 @@ systemctl start mariadb
 systemctl enable mariadb
 mysql -u root <<EOF
 	CREATE DATABASE librenms CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-	CREATE USER 'librenms'@'localhost' IDENTIFIED BY 'KH_password';
+	CREATE USER 'librenms'@'localhost' IDENTIFIED BY 'Jk@s8888';
 	GRANT ALL PRIVILEGES ON librenms.* TO 'librenms'@'localhost';
 	FLUSH PRIVILEGES;
 	exit
